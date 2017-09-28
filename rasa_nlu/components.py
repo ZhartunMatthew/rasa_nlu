@@ -6,6 +6,8 @@ from __future__ import absolute_import
 import logging
 import os
 from collections import defaultdict
+import sys
+sys.path.append('D:\Projects\mitie\MITIE\mitielib')
 
 import typing
 from builtins import object

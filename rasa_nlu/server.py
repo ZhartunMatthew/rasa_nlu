@@ -104,14 +104,14 @@ class RasaNLU(object):
         return DataRouter(config, component_builder)
 
     @app.route("/", methods=['GET'])
-    @check_cors
+    # @check_cors
     def hello(self, request):
         """Main Rasa route to check if the server is online"""
         return "hello from Rasa NLU: " + __version__
 
     @app.route("/parse", methods=['GET', 'POST'])
     @requires_auth
-    @check_cors
+    # @check_cors
     @inlineCallbacks
     def parse_get(self, request):
         request.setHeader('Content-Type', 'application/json')
@@ -143,7 +143,7 @@ class RasaNLU(object):
 
     @app.route("/version", methods=['GET'])
     @requires_auth
-    @check_cors
+    # @check_cors
     def version(self, request):
         """Returns the Rasa server's version"""
 
@@ -152,7 +152,7 @@ class RasaNLU(object):
 
     @app.route("/config", methods=['GET'])
     @requires_auth
-    @check_cors
+    # @check_cors
     def rasaconfig(self, request):
         """Returns the in-memory configuration of the Rasa server"""
 
@@ -161,14 +161,14 @@ class RasaNLU(object):
 
     @app.route("/status", methods=['GET'])
     @requires_auth
-    @check_cors
+    # @check_cors
     def status(self, request):
         request.setHeader('Content-Type', 'application/json')
         return json.dumps(self.data_router.get_status())
 
     @app.route("/train", methods=['POST'])
     @requires_auth
-    @check_cors
+    # @check_cors
     @inlineCallbacks
     def train(self, request):
         data_string = request.content.read().decode('utf-8', 'strict')
@@ -187,6 +187,8 @@ class RasaNLU(object):
             request.setResponseCode(404)
             returnValue(json.dumps({"error": "{}".format(e)}))
         except TrainingException as e:
+            import traceback
+            traceback.print_exc()
             request.setResponseCode(500)
             returnValue(json.dumps({"error": "{}".format(e)}))
 
